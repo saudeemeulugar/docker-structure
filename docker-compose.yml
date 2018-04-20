@@ -1,0 +1,41 @@
+version: '2'
+services:
+  site:
+    user: root
+    build:
+      context: ./server/site
+    ports:
+     - "9400:9400"
+    depends_on:
+     - database
+     - redis
+    links:
+     - database
+     - redis
+    volumes:
+      - "./server/site:/usr/src/app"
+      - ./.data/uploads:/usr/src/app/files/uploads
+    environment:
+      PORT: 9400
+      ENABLE_REQUEST_LOG: 1
+      DATABASE_URL: mysql://project:project@database/project
+      REDIS_URL: redis://redis/1
+      REDIS_DB: 1,
+      REDIS_SECRET: 'asdfg7ab9e7et9rt9rt897ry7rt97yt97hk[rt-y'
+    command: npm run watch
+  redis:
+    image: redis
+    ports:
+      - "9479:6379"
+  database:
+    ports:
+     - "9406:3306"
+    image: mysql:5.7
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: project
+      MYSQL_DATABASE: project
+      MYSQL_USER: project
+      MYSQL_PASSWORD: project

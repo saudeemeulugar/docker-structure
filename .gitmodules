@@ -1,0 +1,8 @@
+[submodule "server/site"]
+	path = server/site
+	url = git@github.com:saudeemeulugar/site.git
+  branch = master
+[submodule "client/admin"]
+	path = client/admin
+	url = git@github.com:saudeemeulugar/admin.git
+  branch = master
